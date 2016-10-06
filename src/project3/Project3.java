@@ -42,13 +42,13 @@ public class Project3 {
 
             System.out.println("Enter the name: ");
             name = input.next();
-            input.close();
-
         } catch (InputMismatchException ex) {
             System.out.println("Year must be entered as an Integer.");
         } catch (IOException ex) {
             System.out.println("Gender must be m (male) or f (female).");
-
+        } finally {
+            System.out.println("Closing Scanner.");
+            input.close();
         }
 
         if (gender.equalsIgnoreCase("m")) {
@@ -62,9 +62,11 @@ public class Project3 {
     }
 
     private static void findMaleName(String name, int year) {
+        Scanner fileScanner = null;
+        
         try {
             File file = new File("Babynamesranking" + year + ".txt");
-            Scanner fileScanner = new Scanner(file);
+            fileScanner = new Scanner(file);
 
             while (fileScanner.hasNext()) {
                 int rank = fileScanner.nextInt();
@@ -82,20 +84,21 @@ public class Project3 {
                 if (!fileScanner.hasNext()) {
                     System.out.println("The name " + name + " is not ranked in year " + year);
                 }
-            }
-            
-            fileScanner.close();
-            
+            }            
         } catch (FileNotFoundException ex) {
             System.out.println("No records for year " + year + " was found.");
+        } finally {
+            fileScanner.close();
         }
 
     }
 
     private static void findFemaleName(String name, int year) {
+        Scanner fileScanner = null;
+        
         try {
             File file = new File("Babynamesranking" + year + ".txt");
-            Scanner fileScanner = new Scanner(file);
+            fileScanner = new Scanner(file);
 
             while (fileScanner.hasNext()) {
                 int rank = fileScanner.nextInt();
@@ -113,13 +116,11 @@ public class Project3 {
                 if (!fileScanner.hasNext()) {
                     System.out.println("The name " + name + " is not ranked in year " + year);
                 }
-            }
-            
-            fileScanner.close();
-            
+            }            
         } catch (FileNotFoundException ex) {
             System.out.println("No records for year " + year + " was found.");
+        } finally {
+            fileScanner.close();
         }
-
     }
 }
